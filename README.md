@@ -24,3 +24,22 @@ docker run -p <port>:<port> job_transition_app
 ```
 
 
+## Load Testing of API
+
+The API can be load tested using [Locust](https://locust.io/) which is an open-source load testing tool. Install locust using `pip install locust`. This is a very useful tool that lets you simulate number of users and the concurrent requests for the API.
+
+[locustfile.py]() defines the task to be tested and it allows the tool to test the API with the help of interactive web UI. `locust --host=http://localhost:9000  --locustfile locustfile.py` will run the web UI on [http://localhost:9000](http://localhost:9000) where we can specify the required load parameters such as No. of concurrent users, spawn rate.
+
+Following are the screenshots for the test tool and the corresponding results for 120 seconds with 100 concurrent users.
+
+![test paramaters](https://github.com/shriadke/predict-job-transition/blob/main/imgs/test_start.JPG)
+
+![Overall Statistics](https://github.com/shriadke/predict-job-transition/blob/main/imgs/locust_home.JPG)
+
+![Requests served per second](https://github.com/shriadke/predict-job-transition/blob/main/imgs/total_rps.JPG)
+
+![Response Time](https://github.com/shriadke/predict-job-transition/blob/main/imgs/resp_time.JPG)
+
+From the results it can be seen that, there was a initial failure due to a delay of 10 sec that the request could not be processed. The other metrics such as peak/average response times can be observed in the given charts and the overall stats. These results are obviously a bit average as the model was deployed on a local machine/server with many other (system started) processes affecting the performance.
+
+In future, to deploy this model in production the latency should be handled. This can be done with the help of AWS's API gateways or similar platforms that serves a larger load at lower costs. 
